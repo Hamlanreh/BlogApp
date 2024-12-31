@@ -1,0 +1,72 @@
+<app-header />
+
+<!-- Main Section -->
+<main class="container mx-auto d-flex flex-column flex-md-row">
+
+  <section class="col-md-8 col-12 px-3">
+    <div class="mt-3">
+      <button type="button" class="btn btn-dark mb-3" (click)="toggleForm()">
+        <i class="fa-solid fa-plus"></i> Create new post
+      </button>
+
+      <div *ngIf="isFormOpen">
+        <h2 class="h4 mb-2">Create a new post: </h2>
+        <form #createForm="ngForm" (ngSubmit)="createPost(createForm)">
+          <div class="mb-3">
+            <label for="postTitle" class="form-label">Title:</label>
+            <input id="postTitle" type="text" class="form-control" placeholder="Enter post title" [(ngModel)]="formData.title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="postContent" class="form-label">Content:</label>
+            <textarea id="postContent" class="form-control" rows="3" [(ngModel)]="formData.content" name="content" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="postCategoryId" class="form-label">Category</label>
+            <select class="form-select" aria-label="Default select example" id="postCategoryId" [(ngModel)]="formData.categoryId" name="categoryId" required>
+              <option *ngFor="let category of categories" value="{{category?.id}}">{{category?.name}}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="postAuthor" class="form-label">Author</label>
+            <input type="text" class="form-control" id="postAuthor" placeholder="John Doe" [(ngModel)]="formData.author" name="author" required>
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Router to different paths -->
+    <router-outlet></router-outlet>
+  </section>
+
+
+  <!--Aside section -->
+  <aside class="col-md-4 col-12">
+    <h2 class="h2 my-3">Trending</h2>
+    <div *ngFor="let post of trendingPosts">
+      <div class="card border-0" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-12">
+            <div class="card-body">
+              <p><span class="badge rounded-pill text-bg-dark">{{post.category.name}}</span></p>
+              <h5 class="card-title">{{post.title}}</h5>
+              <p class="card-text"><small class="text-body-secondary">Published on {{post.publishedOn | date:'yyyy-MM-dd'}}</small></p>
+              <div class="d-flex column-gap-3 align-items-center">
+                <p class="d-flex column-gap-2 align-items-center"><i class="fa-solid fa-eye"></i> <span>{{post.views}}</span></p>
+                <p><a class="link-primary link-underline-opacity-25 link-underline-opacity-100-hover" [routerLink]="['/post', post.id]">Read more >></a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="w-100" />
+      </div>
+    </div>
+  </aside>
+</main>
+
+
+<app-footer />
+
+

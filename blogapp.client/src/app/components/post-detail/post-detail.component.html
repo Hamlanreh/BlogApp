@@ -1,0 +1,64 @@
+<!-- Post Detail Section -->
+
+<article class="mb-4">
+  <div class="my-3 d-flex justify-content-between align-items-center">
+    <button class="badge rounded-pill text-bg-dark">{{post?.category.name}}</button>
+
+    <button type="button" class="btn btn-danger d-flex align-items-center" (click)="deletePost(post.id)">
+      <i class="fa-solid fa-trash fa-xs"></i>
+      <span>Delete</span>
+    </button>
+  </div>
+
+  <h1 class="h1 mb-4">{{post?.title}}</h1>
+
+  <p class="d-flex column-gap-2 mb-4">
+    <span>By {{post?.author}}</span>
+    <span><i class="fa-regular fa-clock"></i></span>
+    <span>{{post?.publishedOn | date:'yyyy-MM-dd'}}</span>
+  </p>
+
+  <img src="/img_placeholder.png" class="bg-body-secondary w-100 mb-4" alt="post-image">
+  <p>{{post?.content}}</p>
+</article>
+
+
+<section class="my-4">
+  <h2 class="h4">Comment Section: </h2>
+  <div class="mb-4" *ngFor="let comment of comments">
+    <div>
+      <div class="d-flex justify-content-between align-items-center column-gap-2">
+        <p class="fw-bold mb-1">{{comment.author}} :</p>
+        <button type="button" class="btn btn-danger d-flex align-items-center" (click)="deleteComment(comment.id)">
+          <i class="fa-solid fa-trash fa-xs"></i>
+          <span>Delete</span>
+        </button>
+      </div>
+      <p class="small mb-0">{{comment.text}}</p>
+    </div>
+
+    <hr class="w-100" />
+  </div>
+</section>
+
+
+  <!-- Comment section form-->
+<section>
+  <form #commentForm="ngForm" (ngSubmit)="createComment(commentForm)">
+    <div class="mb-3 hidden">
+      <input type="number" class="form-control" id="commentPostId" [(ngModel)]="formData.postId" name="postId" value="postId" required disabled>
+    </div>
+    <div class="mb-3">
+      <label for="commentAuthor" class="form-label">Comment Author </label>
+      <input type="text" class="form-control" id="commentAuthor" placeholder="John Doe" [(ngModel)]="formData.author" name="author" required>
+    </div>
+    <div class="mb-3">
+      <label for="commentText" class="form-label">Your Comment:</label>
+      <textarea class="form-control" id="commentText" rows="3" [(ngModel)]="formData.text" name="text" required></textarea>
+    </div>
+    <div class="mb-3">
+      <button class="btn btn-primary" type="submit">Comment</button>
+    </div>
+  </form>
+
+</section>
